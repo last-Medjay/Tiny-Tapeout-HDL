@@ -41,24 +41,32 @@ endmodule
 module ArgMax #(CLAUSES=64, CLASSES=5) (
     input logic clk,
     input logic rstn,
-    input logic unsigned [$clog2(CLAUSES)-1:0] sum [0:CLASSES-1],
+    input logic unsigned [CLASSES*$clog2(CLAUSES)-1:0] sum,
     output logic unsigned [CLASSES-1:0] argmax
 );
 
+logic unsigned [$clog2(CLAUSES)-1:0] sum_intern [0:CLASSES-1];
 logic unsigned [$clog2(CLAUSES)-1:0] MaxSum;
 logic unsigned [CLASSES-1:0] MaxClass;
 
+genvar i;
+generate
+    for (i = 0; i < CLASSES; i++) begin : sum_assign
+        assign sum_intern[i] = sum[i*$clog2(CLAUSES) +: $clog2(CLAUSES)];
+    end
+endgenerate
+
 always_comb begin
-    MaxSum = sum[0];
+    MaxSum = sum_intern[0];
     for (int i = 1; i < CLASSES; i++) begin
-        if (sum[i] > MaxSum) begin
-            MaxSum = sum[i];
+        if (sum_intern[i] > MaxSum) begin
+            MaxSum = sum_intern[i];
         end
     end
 
     MaxClass = 0;
     for (int i = 0; i < 5; i++) begin
-        if (sum[i] == MaxSum) begin
+        if (sum_intern[i] == MaxSum) begin
             MaxClass[i] = 1;
         end
     end
@@ -67,3 +75,4 @@ always_comb begin
 end
 
 endmodule
+
