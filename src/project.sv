@@ -6,7 +6,7 @@
 `default_nettype none
 `timescale 1ns / 1ps
 
-/*module tt_um_BatTM (
+module tt_um_BatTM (
     input  wire [7:0] ui_in,    // Dedicated inputs
     output wire [7:0] uo_out,   // Dedicated outputs
     input  wire [7:0] uio_in,   // IOs: Input path
@@ -17,23 +17,19 @@
     input  wire       rst_n     // reset_n - low to reset
 );
 
+  /*
   // All output pins must be assigned. If not used, assign to 0.
   assign uo_out  = ui_in + uio_in;  // Example: ou_out is the sum of ui_in and uio_in
   assign uio_out = 0;
   assign uio_oe  = 0;
 
   // List all unused inputs to prevent warnings
-  wire _unused = &{ena, clk, rst_n, 1'b0};*/
+  wire _unused = &{ena, clk, rst_n, 1'b0};
+  */
 
-module tt_um_BatTM (
-    input logic clk,
-    input logic rst_n,
-    input logic ena,
-    input logic [7:0] ui_in,
-    input logic [7:0] uio_in,
-    output logic [7:0] uo_out
-);
-
+    assign uio_out = 0;
+    assign uio_oe  = 0;
+    
     BatTM #(
         .BITS(10), 
         .CLAUSES(64), 
