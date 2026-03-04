@@ -26,21 +26,19 @@ module tt_um_BatTM (
   // List all unused inputs to prevent warnings
   wire _unused = &{ena, clk, rst_n, 1'b0};
   */
-
-    assign uio_out = 0;
-    assign uio_oe  = 0;
     
-    BatTM #(
-        .BITS(10), 
-        .CLAUSES(64), 
-        .CLASSES(5)
+    assign uio_oe  = 8'hFF;
+    assign uio_out[7:1] = 7'b0;
+    wire _unused = &{ena, uio_in, ui_in[7:1], 1'b0};
+    
+    TsetlinAutomata #(
+        .Width(8)
     ) BatTM_inst (
         .clk(clk),
         .rstn(rst_n),
-        .I(ui_in[3:0]),
-        .V(ui_in[7:4]),
-        .T(uio_in[3:0]),
-        .Y(uo_out[4:0])
+        .reward(ui_in[0]),
+        .action(uio_out[0]),
+        .state(uo_out)
     );
     
 endmodule
