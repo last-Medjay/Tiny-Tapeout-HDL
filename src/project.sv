@@ -4,8 +4,9 @@
  */
 
 `default_nettype none
+`timescale 1ns / 1ps
 
-module tt_um_example (
+/*module tt_um_BatTM (
     input  wire [7:0] ui_in,    // Dedicated inputs
     output wire [7:0] uo_out,   // Dedicated outputs
     input  wire [7:0] uio_in,   // IOs: Input path
@@ -22,6 +23,28 @@ module tt_um_example (
   assign uio_oe  = 0;
 
   // List all unused inputs to prevent warnings
-  wire _unused = &{ena, clk, rst_n, 1'b0};
+  wire _unused = &{ena, clk, rst_n, 1'b0};*/
 
+module tt_um_BatTM (
+    input logic clk,
+    input logic rst_n,
+    input logic ena,
+    input logic [7:0] ui_in,
+    input logic [7:0] uio_in,
+    output logic [7:0] uo_out
+);
+
+    BatTM #(
+        .BITS(10), 
+        .CLAUSES(64), 
+        .CLASSES(5)
+    ) BatTM_inst (
+        .clk(clk),
+        .rstn(rst_n),
+        .I(ui_in[3:0]),
+        .V(ui_in[7:4]),
+        .T(uio_in[3:0]),
+        .Y(uo_out[4:0])
+    );
+    
 endmodule
