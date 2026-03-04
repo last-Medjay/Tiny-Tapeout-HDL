@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module BatTM #(BITS=10, CLAUSES=64, CLASSES=5) (
+module tt_um_BatTM #(BITS=10, CLAUSES=64, CLASSES=5) (
     input logic clk,
     input logic rstn,
     input logic [$clog2(BITS+1)-1:0] I,
