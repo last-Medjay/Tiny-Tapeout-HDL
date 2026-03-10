@@ -14,7 +14,7 @@ module tt_um_BatTM (
    
   assign uio_oe  = 0;
   assign uio_out = 0;
-  wire _unused = &{ena, uio_in, uo_out[7:5], uio_in[7:4], 1'b0};
+  wire _unused = &{ena, uo_out[7:5], uio_in[7:4], 1'b0};
     
   BatTM #(
     .BITS(10),
